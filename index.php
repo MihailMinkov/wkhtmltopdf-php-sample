@@ -73,15 +73,18 @@
                 }
                 /**
                  * Function that attempts to return the kind of CPU.
+                 * "lm" stands for Long Mode which equates to a 64-bit CPU
+                 * @author : valentin...@soluzioneazienda.it, Jul 28, 2011 comment in http://goo.gl/5PgVK
                  * @return string CPU kind ('amd64' or 'i386').
                  */
-                private static function _getCPU(){
-                        if(self::$cpu==''){
-                                if(`grep -i amd /proc/cpuinfo`!='')                     self::$cpu='amd64';
-                                elseif(`grep -i intel /proc/cpuinfo`!='')       self::$cpu='i386';
-                                else throw new Exception('WKPDF couldn\'t determine CPU ("'.`grep -i vendor_id /proc/cpuinfo`.'").');
-                        }
-                        return self::$cpu;
+                private static function _getCPU() {
+                    if ( self::$cpu == '' ) {
+                            if ( `grep -i lm /proc/cpuinfo` != '' )
+                                    self::$cpu = 'amd64';
+                            else
+                                    self::$cpu = 'i386';
+                    }
+                    return self::$cpu;
                 }
                 /**
                  * Force the client to download PDF file when finish() is called.
